@@ -26,21 +26,9 @@ use URI;
 use GD;
 use Carp;
 
-our $LATEXPRELUDE = <<END;
-\\documentclass[a4paper,11pt,twoside]{report}
-\\usepackage{taekim}
-\\title{Japanese Grammar Guide}
-\\author{Tae Kim}
-\\begin{document}
-\\tkbegin
-END
-our $LATEXPOSTLUDE = <<END;
-\\end{document}
-END
-
 binmode STDOUT, ':utf8';
 
-my $output = "tmp.tex";
+my $output = "body.tex";
 open(OUT, '>', $output) or die "Opening $output failed: $! $?";
 
 OUT->autoflush(1);
@@ -53,10 +41,8 @@ $tree->parse_content($mech->content);
 my $node = $tree->look_down("_tag", "h2", sub { $_[0]->as_text() eq 'Table of Contents' } )->right;
 
 binmode OUT, ':utf8';
-print OUT $LATEXPRELUDE;
 #process_url('http://www.guidetojapanese.org/learn/grammar/past_tense', 0, *OUT, "Dingens");
 walk_toc($node, 0, *OUT);
-print OUT $LATEXPOSTLUDE;
 close(OUT);
 
 $tree->delete();
