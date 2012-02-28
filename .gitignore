@@ -1,6 +1,6 @@
 *.tex
 *.png
-taekim_a4.aux
-taekim_a4.log
-taekim_a4.out
-taekim_a4.toc
+*.aux
+*.log
+*.out
+*.toc
