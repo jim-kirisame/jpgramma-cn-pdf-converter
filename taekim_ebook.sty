@@ -1,0 +1,61 @@
+%\usepackage[cm]{fullpage}
+\usepackage[english]{babel}
+\usepackage[table]{xcolor}
+%\usepackage{omega-japanese}
+%\InputTranslation currentfile \OCPutf
+\usepackage{fancyhdr}
+\usepackage{fontspec}
+\usepackage{ulem} % for sout
+\usepackage{xeCJK}
+\usepackage[bookmarks=true,colorlinks=true,linkcolor=blue,pdfusetitle]{hyperref}
+\usepackage{tikz}
+
+\setmainfont{Linux Biolinum}
+\setCJKmainfont{Sazanami Gothic}
+
+\hbadness=10000
+\raggedbottom
+\parindent0pt
+%\parskip2.3ex
+\setlength{\headheight}{15.2pt}
+
+\definecolor{boxbg}{gray}{0.9}
+\definecolor{boxframe}{gray}{0.4}
+\definecolor{highlight}{RGB}{226,132,0}
+\definecolor{tablecaption}{gray}{0.9}
+\definecolor{tableheader}{RGB}{255,253,183}
+
+\tikzstyle{tkbox} = [draw=boxframe, fill=boxbg, rectangle, thick, rounded corners, inner sep=10pt, inner ysep=20pt]
+\tikzstyle{fancytitle} = [fill=boxframe, text=white, right=10pt, rounded corners]
+
+\newcommand{\tkbegin}{%
+	\pagestyle{empty}%
+	\begin{center}%
+		\leavevmode%
+		\normalfont%
+		{\LARGE \@title\par}%
+		\vskip 1cm%
+		{\Large \@author\par}%
+		\vskip 1cm%
+		{\Large \@date\par}%
+		\vskip 1cm%
+		\includegraphics[height=1cm]{by-nc-sa.eu.png}%
+	\end{center}%
+	
+	\clearpage%
+	\pagestyle{plain}%
+	\tableofcontents%
+	\clearpage%
+	\pagestyle{fancy}%
+	\parskip2.3ex%
+}
+\newenvironment{tkbasebox}%
+{\begin{tikzpicture}}%
+{\end{tikzpicture}\\}
+\newenvironment{tkinsidebox}%
+{\begin{minipage}{\textwidth-21pt}}%
+{\end{minipage}}
+\newcommand{\tkboxheader}[1]{\node[fancytitle] at (box.north west) {#1};}
+\newcommand{\jpb}{\hskip 0sp plus 2pt minus 2sp}
+
+
