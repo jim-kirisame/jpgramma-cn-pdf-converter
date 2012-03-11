@@ -157,9 +157,9 @@ sub tree_to_latex {
 			}
 		}
 		when ("img") {
-                        if (check_img($tree->attr('src'))) {
-                                return "\\begin{center}\\includegraphics[width=0.5\\textwidth]{" . download_img($tree->attr('src')) . "}\\end{center}";
-                        }
+			if (check_img($tree->attr('src'))) {
+				return "\\begin{center}\\includegraphics[width=0.5\\textwidth]{" . download_img($tree->attr('src')) . "}\\end{center}";
+			}
 		}
 		when ("ul") {
 			$latex .= "\\begin{itemize}\n";
@@ -457,7 +457,7 @@ sub print_status_done {
 }
 
 sub check_img {
-        my ($url) = @_;
+	my ($url) = @_;
 	if ($url =~ m#^/#) {
 		$url = "http://www.guidetojapanese.org$url";
 	}
@@ -465,9 +465,9 @@ sub check_img {
 	my @seg = $uri->path_segments;
 	my $filename = $seg[-1];
 
-        # Add your ignores here
-        if ($filename eq "play.png") { return 0; }
-        return 1;
+	# Add your ignores here
+	if ($filename eq "play.png") { return 0; }
+	return 1;
 }
 
 sub download_img {
