@@ -9,6 +9,10 @@
 \usepackage{xeCJK}
 \usepackage[bookmarks=true,colorlinks=true,linkcolor=blue,pdfusetitle]{hyperref}
 \usepackage{tikz}
+\usepackage{enumitem}
+
+% Reduce whitespace
+\setlist{noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt}
 
 \setmainfont{Linux Biolinum}
 \newfontlanguage{Japanese}{JPN}
@@ -55,7 +59,7 @@
 {\begin{tikzpicture}}%
 {\end{tikzpicture}\\}
 \newenvironment{tkinsidebox}%
-{\begin{minipage}{\textwidth-21pt}}%
+{\begin{minipage}{10.2cm}}%
 {\end{minipage}}
 \newcommand{\tkboxheader}[1]{\node[fancytitle] at (box.north west) {#1};}
 \newcommand{\jpb}{\hskip 0sp plus 2pt minus 2sp}
