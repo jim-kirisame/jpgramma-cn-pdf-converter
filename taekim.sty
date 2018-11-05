@@ -11,7 +11,7 @@
 \usepackage{tikz}
 
 \setmainfont{Linux Biolinum}
-\setCJKmainfont{Sazanami Gothic}
+\setCJKmainfont{Source Han Serif SC}
 
 \hbadness=10000
 \raggedbottom
@@ -40,7 +40,7 @@
 		\vskip 1cm%
 		{\Large \@date\par}%
 		\vskip 3cm%
-		\includegraphics[height=1cm]{by-nc-sa.eu.png}%
+		\includegraphics[height=1cm,natwidth=403,natheight=141]{by-nc-sa.eu.png}%
 	\end{center}%
 	
 	\cleardoublepage%
@@ -54,7 +54,7 @@
 {\begin{tikzpicture}}%
 {\end{tikzpicture}\\}
 \newenvironment{tkinsidebox}%
-{\begin{minipage}{\textwidth-21pt}}%
+{\begin{minipage}{\dimexpr\textwidth-21pt}}%
 {\end{minipage}}
 \newcommand{\tkboxheader}[1]{\node[fancytitle] at (box.north west) {#1};}
 \newcommand{\jpb}{\hskip 0sp plus 2pt minus 2sp}
