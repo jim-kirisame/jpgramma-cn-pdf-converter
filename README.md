@@ -4,8 +4,10 @@
 
 ## 用法
 
-先 git clone https://github.com/pizzamx/jpgramma 
+先将网页版下载下来：https://github.com/pizzamx/jpgramma 
 
+```
 go build
 ./tae-kim_cn_latex_go <你刚刚下载的目录>
 make
+```
