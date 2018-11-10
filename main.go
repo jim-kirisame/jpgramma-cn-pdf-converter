@@ -156,15 +156,18 @@ func urlHandler(url string, level int, outFile *os.File, title string) {
 	firstNode := getNode(node, con)
 
 	out.WriteString(makeHeading(level, title))
+
+	// 添加章节开头的链接
+	out.WriteString(genHyperTag(url, "", ""))
 	ct := context{}
-	out.WriteString(getNodeContent(firstNode, level+1, ct))
+	out.WriteString(getNodeContent(firstNode, level+1, url, ct))
 
 	outFile.WriteString(`\input{` + chapdir + id + "}\n")
 
 	out.Close()
 }
 
-func getNodeContent(node *html.Node, level int, con context) string {
+func getNodeContent(node *html.Node, level int, name string, con context) string {
 	str := ""
 	cnt := 0
 	newCon := con.cols == 0
@@ -187,6 +190,10 @@ func getNodeContent(node *html.Node, level int, con context) string {
 			var close, newline int
 
 			cnt++
+
+			if id != "" {
+				str += genHyperTag(name, id, "")
+			}
 
 			switch tag {
 			case "h1":
@@ -251,7 +258,7 @@ func getNodeContent(node *html.Node, level int, con context) string {
 					}
 
 					str += "\\begin{tkbasebox}%\n\\node[tkbox](box){%\n\\begin{tkinsidebox}%\n"
-					str += getNodeContent(nNode, level, con)
+					str += getNodeContent(nNode, level, name, con)
 					str += "%\n\\end{tkinsidebox}%\n};%\n\\tkboxheader{" + title + "}%\n\\end{tkbasebox}\n\n"
 
 					node = node.NextSibling
@@ -333,17 +340,23 @@ func getNodeContent(node *html.Node, level int, con context) string {
 				node = node.NextSibling
 				continue
 			case "a":
-				if class == "playIcon" {
+				if class == "playIcon" || strings.Contains(getNodeStr(node), "练习") {
 					node = node.NextSibling
 					continue
 				}
-				// todo: 链接的处理
+				href := getAttr(node, "href")
+				if strings.Contains(href, "http") {
+					prefix = "\\href{" + escapeTexLite(href) + "}{"
+					end = " (\\url{" + escapeTexLite(href) + "})"
+				} else {
+					prefix = "\\hyperlink{" + escapeTexLite(strings.Replace(href, "#", "-", -1)) + "}{"
+				}
 			default:
 				fmt.Println("Unknown tag ", tag)
 			}
 
 			if prefix != "" {
-				content := getNodeContent(node.FirstChild, level, con)
+				content := getNodeContent(node.FirstChild, level, name, con)
 				str += prefix + content + "}" + appendix
 				for i := 0; i < newline; i++ {
 					str += "\n"
@@ -352,7 +365,7 @@ func getNodeContent(node *html.Node, level int, con context) string {
 				continue
 			}
 
-			nstr := getNodeContent(node.FirstChild, level, con)
+			nstr := getNodeContent(node.FirstChild, level, name, con)
 			str += nstr
 
 			if end != "" {
@@ -429,6 +442,9 @@ func escapeTexLite(text string) string {
 	result = strings.Replace(result, "}", "\\}", -1)
 	result = strings.Replace(result, "%", "\\%", -1)
 	result = strings.Replace(result, "#", "\\#", -1)
+	result = strings.Replace(result, "_", "\\_", -1)
+	result = strings.Replace(result, "$", "\\$", -1)
+	result = strings.Replace(result, "^", "\\^", -1)
 	return result
 }
 
@@ -517,4 +533,11 @@ func genTexTableHead(count int, border bool) string {
 		str += "c"
 	}
 	return str
+}
+
+func genHyperTag(name string, id string, text string) string {
+	if id == "" {
+		return `\hypertarget{` + escapeTexLite(name) + `}{` + text + `}`
+	}
+	return `\hypertarget{` + escapeTexLite(name+"-"+id) + `}{` + text + `}`
 }
