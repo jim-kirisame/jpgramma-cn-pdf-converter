@@ -221,6 +221,8 @@ func getNodeContent(node *html.Node, level int, name string, con context) string
 				// 表格内禁用换行
 				if con.cols == 0 {
 					str += "\\\\\n"
+				} else {
+					str += "\\\\"
 				}
 				node = node.NextSibling
 				continue
@@ -328,13 +330,23 @@ func getNodeContent(node *html.Node, level int, name string, con context) string
 					appendix += "\\hline"
 				}
 			case "td":
+				prefix = "\\tabincell{c}{"
 				if cnt < con.cols {
 					appendix = " & "
 				}
 			case "th":
-				prefix = "\\cellcolor{tableheader}\\textbf{"
+				colspan := getAttr(node, "colspan")
+				if colspan != "" {
+					prefix += "\\multicolumn{" + colspan + "}{c}{"
+					appendix += "}"
+
+					col, err := strconv.Atoi(colspan)
+					errHandler(err)
+					cnt += (col - 1)
+				}
+				prefix += "\\cellcolor{tableheader}\\textbf{"
 				if cnt < con.cols {
-					appendix = " & "
+					appendix += " & "
 				}
 			case "script", "nav":
 				node = node.NextSibling
@@ -516,7 +528,14 @@ func getTableColCount(node *html.Node) int {
 		}
 
 		if nd.Data == "td" || nd.Data == "th" {
-			count++
+			col := getAttr(nd, "colspan")
+			if col != "" {
+				num, err := strconv.Atoi(col)
+				errHandler(err)
+				count += num
+			} else {
+				count++
+			}
 		}
 		nd = nd.NextSibling
 	}

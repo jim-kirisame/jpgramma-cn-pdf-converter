@@ -1,6 +1,7 @@
 %\usepackage[cm]{fullpage}
 %\usepackage[english]{babel}
 \usepackage[table]{xcolor}
+\usepackage{multirow}
 %\usepackage{omega-japanese}
 %\InputTranslation currentfile \OCPutf
 \usepackage{fancyhdr}
@@ -59,3 +60,4 @@
 {\end{minipage}}
 \newcommand{\tkboxheader}[1]{\node[fancytitle] at (box.north west) {#1};}
 \newcommand{\jpb}{\hskip 0sp plus 2pt minus 2sp}
+\newcommand{\tabincell}[3][c]{\begin{tabular}[#1]{@{}#2@{}}#3\end{tabular}}
