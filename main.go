@@ -357,11 +357,13 @@ func getNodeContent(node *html.Node, level int, name string, con context) string
 					continue
 				}
 				href := getAttr(node, "href")
-				if strings.Contains(href, "http") {
-					prefix = "\\href{" + escapeTexLite(href) + "}{"
-					end = " (\\url{" + escapeTexLite(href) + "})"
-				} else {
-					prefix = "\\hyperlink{" + escapeTexLite(strings.Replace(href, "#", "-", -1)) + "}{"
+				if href != "" {
+					if strings.Contains(href, "http") {
+						prefix = "\\href{" + escapeTexLite(href) + "}{"
+						// appendix = " (\\url{" + escapeTexLite(href) + "})"
+					} else {
+						prefix = "\\hyperlink{" + escapeTexLite(strings.Replace(href, "#", "-", -1)) + "}{"
+					}
 				}
 			default:
 				fmt.Println("Unknown tag ", tag)
