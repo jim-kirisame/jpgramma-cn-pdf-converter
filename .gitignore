@@ -7,3 +7,6 @@
 *.pdf
 *.fls
 *.fdb_latexmk
+
+go.sum
+tae-kim_cn_latex_go

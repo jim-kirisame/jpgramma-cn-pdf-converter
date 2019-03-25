@@ -108,7 +108,10 @@ func walkToc(node *html.Node, level int, outFile *os.File) {
 
 			// 先不处理练习部分的内容
 			if strings.Contains(text, "练习") {
-				fmt.Println("+ ", level+1, text)
+				for i := 0; i < level-1; i++ {
+					fmt.Print("  ")
+				}
+				fmt.Println("-", "忽略", text)
 				return
 			}
 
@@ -132,7 +135,10 @@ func getAttr(node *html.Node, key string) string {
 }
 
 func urlHandler(url string, level int, outFile *os.File, title string) {
-	fmt.Println(level, title, url)
+	for i := 0; i < level-1; i++ {
+		fmt.Print("  ")
+	}
+	fmt.Println("-", title, url)
 
 	id := strings.TrimRight(url, ".html")
 	f := outdir + chapdir + id + ".tex"
@@ -231,6 +237,11 @@ func getNodeContent(node *html.Node, level int, name string, con context) string
 				case "summary":
 					str += `\textbf{`
 					close = 1
+				case "remark":
+					// 编者注类型
+					str += `\textit{`
+					close = 1
+				case "": // 没有class的span，常用于假名表中其他发音，直接显示内容
 				case "popup":
 				default:
 					fmt.Println("Unknown span type ", class)
@@ -265,14 +276,24 @@ func getNodeContent(node *html.Node, level int, name string, con context) string
 
 					node = node.NextSibling
 					continue
+				case "book-navigation":
+					// 不解析每章开头的导航
+					node = node.NextSibling
+					continue
 				default:
 					fmt.Println("Unknown div type", class)
 				}
 			case "img":
 				str += "\\begin{center}\\includegraphics[width=0.5\\textwidth]{" + getPic(getAttr(node, "src")) + "}\\end{center}"
 			case "ul":
+				if class == "menu" {
+					// 跳过章节最底下练习的导航
+					node = node.NextSibling
+					continue
+				}
 				str += "\\begin{itemize}\n"
 				end = "itemize"
+
 			case "ol":
 				str += "\\begin{enumerate}\n"
 				end = "enumerate"
@@ -365,6 +386,10 @@ func getNodeContent(node *html.Node, level int, name string, con context) string
 						prefix = "\\hyperlink{" + escapeTexLite(strings.Replace(href, "#", "-", -1)) + "}{"
 					}
 				}
+			case "iframe":
+			case "audio":
+			case "tbody":
+				// continue
 			default:
 				fmt.Println("Unknown tag ", tag)
 			}
@@ -456,7 +481,7 @@ func escapeTexLite(text string) string {
 	result = strings.Replace(result, "}", "\\}", -1)
 	result = strings.Replace(result, "%", "\\%", -1)
 	result = strings.Replace(result, "#", "\\#", -1)
-	result = strings.Replace(result, "_", "\\_", -1)
+	result = strings.Replace(result, "_", "-", -1)
 	result = strings.Replace(result, "$", "\\$", -1)
 	result = strings.Replace(result, "^", "\\^", -1)
 	return result

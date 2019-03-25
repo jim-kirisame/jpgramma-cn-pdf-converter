@@ -11,3 +11,15 @@ go build
 ./tae-kim_cn_latex_go <你刚刚下载的目录>
 make
 ```
+## 其他
+
+```
+# 安装texlive
+sudo pacman -S texlive-most texlive-langchinese
+
+# 安装字体
+sudo pacman -S ttf-linux-libertine adobe-source-han-serif-otc-fonts
+
+
+
+```
