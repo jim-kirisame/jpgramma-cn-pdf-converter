@@ -328,19 +328,19 @@ func getNodeContent(node *html.Node, level int, name string, con context) string
 					str += "\\resizebox{\\textwidth}{!}{"
 					close = 1
 				} else if con.cols == 0 {
-					str += "\\begin{center}\n"
-					appendix = "\\end{center}\n"
+					str += "\\begin{center}\\begin{adjustbox}{max width=\\textwidth}\n"
+					appendix = "\\end{adjustbox}\\end{center}\n"
 				}
 
 				col := getTableColCount(node)
 				borderAttr := getAttr(node, "border")
 				border := borderAttr != "" && borderAttr != "0"
 
-				str += "\\begin{tabular}{" + genTexTableHead(col, border) + "}\n"
+				str += `{\small \begin{tabu} to 0.5\textwidth {` + genTexTableHead(col, border) + "}\n"
 				con.cols = col
 				con.col = 0
 
-				end = "tabular"
+				end = "tabu}"
 				newline = 1
 
 				// todo: fix table tree
@@ -350,7 +350,7 @@ func getNodeContent(node *html.Node, level int, name string, con context) string
 			case "tr":
 				appendix = `\\` + "\n"
 				if con.hline || con.col == 0 {
-					appendix += `\hline`
+					appendix += `\hline` + "\n"
 				}
 				con.col++
 			case "td":
