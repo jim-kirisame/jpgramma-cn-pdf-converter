@@ -13,7 +13,8 @@
 \usepackage{tikz}
 
 \setmainfont{Linux Biolinum}
-\setCJKmainfont{Source Han Serif SC}
+\setCJKmainfont[ItalicFont=AR PL UKai CN]{Source Han Serif SC}
+\setCJKsansfont{Source Han Sans SC}
 
 \hbadness=10000
 \raggedbottom
@@ -59,5 +60,8 @@
 {\end{minipage}}
 \newcommand{\tkboxheader}[1]{\node[fancytitle] at (box.north west) {#1};}
 \newcommand{\jpb}{\hskip 0sp plus 2pt minus 2sp}
-\newcommand{\tabincell}[3][c]{\begin{tabular}[#1]{@{}#2@{}}#3\end{tabular}}
+\newcommand{\tabincell}[3][t]{\begin{tabular}[#1]{@{}#2@{}}#3\end{tabular}}
 \newcommand{\linktarget}[1]{#1}
+
+\let\emph\relax
+\DeclareTextFontCommand{\emph}{\color{highlight}\em}

@@ -218,7 +218,7 @@ func getNodeContent(node *html.Node, level int, name string, con context) string
 			case "i":
 				prefix = `\textit{`
 			case "em":
-				prefix = `{\color{highlight}`
+				prefix = `\emph{`
 			case "u":
 				prefix = `\uline{`
 			case "strike":
@@ -239,7 +239,7 @@ func getNodeContent(node *html.Node, level int, name string, con context) string
 					close = 1
 				case "remark":
 					// 编者注类型
-					str += `\textit{`
+					str += `\footnote{`
 					close = 1
 				case "": // 没有class的span，常用于假名表中其他发音，直接显示内容
 				case "popup":
@@ -318,10 +318,10 @@ func getNodeContent(node *html.Node, level int, name string, con context) string
 
 			case "table":
 				subtable := getNode(node.FirstChild, func(nd *html.Node) bool {
-					return nd.Data == "table"
+					return nd.Data == "table" || nd.Data == "br"
 				})
-				// 仅在有子表格的时候启用水平线
-				con.hline = subtable != nil
+				// 仅在有子表格或换行的时候启用水平线
+				con.hline = (subtable != nil)
 
 				if class == "scale-to-page-width" {
 					str += "\\resizebox{\\textwidth}{!}{"
@@ -335,7 +335,7 @@ func getNodeContent(node *html.Node, level int, name string, con context) string
 				borderAttr := getAttr(node, "border")
 				border := borderAttr != "" && borderAttr != "0"
 
-				str += "\\begin{tabular}[t]{" + genTexTableHead(col, border) + "}\n"
+				str += "\\begin{tabular}{" + genTexTableHead(col, border) + "}\n"
 				con.cols = col
 
 				end = "tabular"
@@ -347,7 +347,7 @@ func getNodeContent(node *html.Node, level int, name string, con context) string
 				appendix = " \\\\\n\\hline "
 			case "tr":
 				appendix = "\\\\\n"
-				if con.hline && getAttr(node, "last") != "" {
+				if con.hline {
 					appendix += "\\hline"
 				}
 			case "td":
@@ -382,13 +382,34 @@ func getNodeContent(node *html.Node, level int, name string, con context) string
 					if strings.Contains(href, "http") {
 						target := escapeTexLite(href)
 						prefix = "\\href{" + target + "}{"
-						appendix = `\linktarget{ (\url{` + target + `})}`
+						appendix = `\linktarget{\footnote{\url{` + target + `}}}`
 					} else {
 						target := escapeInnerLink(strings.Replace(href, "#", "-", -1))
 						prefix = "\\hyperlink{" + target + "}{"
 						appendix = `\linktarget{ (P\pageref{` + target + `})}`
 					}
 				}
+			case "sup":
+				key := getNodeStr(node)
+				// 查找带有 sup 的 remark
+				knd := getNode(node.Parent.NextSibling, func(nd *html.Node) bool {
+					if nd.Data == "span" && getAttr(nd, "class") == "remark" {
+						return getNode(nd.FirstChild, func(cnd *html.Node) bool {
+							return cnd.Data == "sup" && getNodeStr(cnd) == key
+						}) != nil
+					}
+					return false
+				})
+				if knd != nil {
+					str += `\footnote{` + getNodeRealStr(knd) + `}`
+					knd.Data = "skip" // 跳过后面的解释
+
+					node = node.NextSibling
+					continue
+				}
+			case "skip":
+				node = node.NextSibling
+				continue
 			case "iframe":
 			case "audio":
 			case "tbody":
@@ -500,6 +521,19 @@ func escapeTexLite(text string) string {
 func getNodeStr(node *html.Node) string {
 	if node != nil && node.FirstChild != nil {
 		return node.FirstChild.Data
+	}
+	return ""
+}
+
+func getNodeRealStr(node *html.Node) string {
+	if node != nil && node.FirstChild != nil {
+		n := node.FirstChild
+		for n != nil {
+			if n.Type == html.TextNode {
+				return n.Data
+			}
+			n = n.NextSibling
+		}
 	}
 	return ""
 }
