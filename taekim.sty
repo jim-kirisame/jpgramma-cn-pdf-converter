@@ -63,5 +63,8 @@
 \newcommand{\tabincell}[3][t]{\begin{tabular}[#1]{@{}#2@{}}#3\end{tabular}}
 \newcommand{\linktarget}[1]{}
 
+\newcommand{\tablecaption}[1]{\cellcolor{tablecaption} #1}
+\newcommand{\tableheader}[1]{\cellcolor{tableheader}\textbf{#1}}
+
 \let\emph\relax
 \DeclareTextFontCommand{\emph}{\color{highlight}\em}

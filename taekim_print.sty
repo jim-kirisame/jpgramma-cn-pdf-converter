@@ -8,6 +8,7 @@
 \usepackage{fontspec}
 \usepackage{ulem} % for sout
 \usepackage{ctex}
+\usepackage{CJKfntef}
 %\usepackage{xeCJK} 
 \usepackage[bookmarks=true,pdfusetitle]{hyperref}
 \usepackage{tikz}
@@ -22,11 +23,11 @@
 %\parskip2.3ex
 \setlength{\headheight}{15.2pt}
 
-\definecolor{boxbg}{gray}{0.9}
+\definecolor{boxbg}{gray}{0.95}
 \definecolor{boxframe}{gray}{0.4}
-\definecolor{highlight}{RGB}{226,132,0}
-\definecolor{tablecaption}{gray}{0.9}
-\definecolor{tableheader}{RGB}{255,253,183}
+\definecolor{highlight}{gray}{0.3}
+\definecolor{tablecaption}{gray}{1}
+\definecolor{tableheader}{gray}{1}
 
 \tikzstyle{tkbox} = [draw=boxframe, fill=boxbg, rectangle, thick, rounded corners, inner sep=10pt, inner ysep=20pt]
 \tikzstyle{fancytitle} = [fill=boxframe, text=white, right=10pt, rounded corners]
@@ -63,5 +64,9 @@
 \newcommand{\tabincell}[3][t]{\begin{tabular}[#1]{@{}#2@{}}#3\end{tabular}}
 \newcommand{\linktarget}[1]{#1}
 
+\newcommand{\tablecaption}[1]{\textit{#1}}
+\newcommand{\tableheader}[1]{\textbf{#1}}
+
 \let\emph\relax
-\DeclareTextFontCommand{\emph}{\color{highlight}\em}
+%\DeclareTextFontCommand{\emph}{\CJKunderdot\em}
+\newcommand{\emph}[1]{\CJKunderdot{\em#1}}

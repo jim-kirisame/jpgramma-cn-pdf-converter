@@ -20,6 +20,7 @@ var chapdir = "out/"
 type context struct {
 	hline bool
 	cols  int
+	col   int
 }
 
 func errHandler(err error) {
@@ -337,35 +338,37 @@ func getNodeContent(node *html.Node, level int, name string, con context) string
 
 				str += "\\begin{tabular}{" + genTexTableHead(col, border) + "}\n"
 				con.cols = col
+				con.col = 0
 
 				end = "tabular"
 				newline = 1
 
 				// todo: fix table tree
 			case "caption":
-				prefix = "\\multicolumn{" + strconv.Itoa(con.cols) + "}{c}{\\cellcolor{tablecaption}"
-				appendix = " \\\\\n\\hline "
+				prefix = `\multicolumn{` + strconv.Itoa(con.cols) + `}{c}{\tablecaption{`
+				appendix = `} \\` + "\n" + `\hline`
 			case "tr":
-				appendix = "\\\\\n"
-				if con.hline {
-					appendix += "\\hline"
+				appendix = `\\` + "\n"
+				if con.hline || con.col == 0 {
+					appendix += `\hline`
 				}
+				con.col++
 			case "td":
-				prefix = "\\tabincell{c}{"
+				prefix = `\tabincell{c}{`
 				if cnt < con.cols {
 					appendix = " & "
 				}
 			case "th":
 				colspan := getAttr(node, "colspan")
 				if colspan != "" {
-					prefix += "\\multicolumn{" + colspan + "}{c}{"
+					prefix += `\multicolumn{` + colspan + "}{c}{"
 					appendix += "}"
 
 					col, err := strconv.Atoi(colspan)
 					errHandler(err)
 					cnt += (col - 1)
 				}
-				prefix += "\\cellcolor{tableheader}\\textbf{"
+				prefix += `\tableheader{`
 				if cnt < con.cols {
 					appendix += " & "
 				}
