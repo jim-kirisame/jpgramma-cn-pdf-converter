@@ -457,6 +457,11 @@ func getNodeContent(node *html.Node, level int, name string, con context) string
 func makeHeading(level int, title string) string {
 	levelCmd := []string{"chapter", "section", "subsection", "subsubsection"}
 	cmd := levelCmd[level-1]
+	// 删除标题里面括号的内容，防止标题过长overflow
+	if strings.HasSuffix(title, "）") {
+		index := strings.LastIndex(title, "（")
+		title = title[:index]
+	}
 	return fmt.Sprintln(`\` + cmd + "{" + escapeTex(title) + "}")
 }
 
