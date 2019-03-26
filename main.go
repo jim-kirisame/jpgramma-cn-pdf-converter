@@ -380,10 +380,13 @@ func getNodeContent(node *html.Node, level int, name string, con context) string
 				href := getAttr(node, "href")
 				if href != "" {
 					if strings.Contains(href, "http") {
-						prefix = "\\href{" + escapeTexLite(href) + "}{"
-						// appendix = " (\\url{" + escapeTexLite(href) + "})"
+						target := escapeTexLite(href)
+						prefix = "\\href{" + target + "}{"
+						appendix = `\linktarget{ (\url{` + target + `})}`
 					} else {
-						prefix = "\\hyperlink{" + escapeTexLite(strings.Replace(href, "#", "-", -1)) + "}{"
+						target := escapeInnerLink(strings.Replace(href, "#", "-", -1))
+						prefix = "\\hyperlink{" + target + "}{"
+						appendix = `\linktarget{ (P\pageref{` + target + `})}`
 					}
 				}
 			case "iframe":
@@ -474,6 +477,12 @@ func escapeTex(text string) string {
 	return result
 }
 
+// escapeInnerLink 转义内部链接的文本
+func escapeInnerLink(text string) string {
+	result := strings.Replace(text, "_", "-", -1)
+	return escapeTexLite(result)
+}
+
 // escapeTexLite 仅转义必要的文本
 func escapeTexLite(text string) string {
 	result := text
@@ -481,7 +490,7 @@ func escapeTexLite(text string) string {
 	result = strings.Replace(result, "}", "\\}", -1)
 	result = strings.Replace(result, "%", "\\%", -1)
 	result = strings.Replace(result, "#", "\\#", -1)
-	result = strings.Replace(result, "_", "-", -1)
+	result = strings.Replace(result, "_", "\\_", -1)
 	result = strings.Replace(result, "$", "\\$", -1)
 	result = strings.Replace(result, "^", "\\^", -1)
 	return result
@@ -582,8 +591,11 @@ func genTexTableHead(count int, border bool) string {
 }
 
 func genHyperTag(name string, id string, text string) string {
+	target := ""
 	if id == "" {
-		return `\hypertarget{` + escapeTexLite(name) + `}{` + text + `}`
+		target = escapeInnerLink(name)
+	} else {
+		target = escapeInnerLink(name + "-" + id)
 	}
-	return `\hypertarget{` + escapeTexLite(name+"-"+id) + `}{` + text + `}`
+	return `\hypertarget{` + target + `}{\label{` + target + `}` + text + `}`
 }

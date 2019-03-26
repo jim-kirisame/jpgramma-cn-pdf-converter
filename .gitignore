@@ -1,5 +1,4 @@
-*.tex
-*.png
+out/
 *.aux
 *.log
 *.out
@@ -8,5 +7,7 @@
 *.fls
 *.fdb_latexmk
 
+body.tex
 go.sum
 tae-kim_cn_latex_go
+converter

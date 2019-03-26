@@ -9,7 +9,7 @@
 \usepackage{ulem} % for sout
 \usepackage{ctex}
 %\usepackage{xeCJK} 
-\usepackage[bookmarks=true,colorlinks=true,linkcolor=blue,pdfusetitle]{hyperref}
+\usepackage[bookmarks=true,pdfusetitle]{hyperref}
 \usepackage{tikz}
 
 \setmainfont{Linux Biolinum}
@@ -60,4 +60,4 @@
 \newcommand{\tkboxheader}[1]{\node[fancytitle] at (box.north west) {#1};}
 \newcommand{\jpb}{\hskip 0sp plus 2pt minus 2sp}
 \newcommand{\tabincell}[3][c]{\begin{tabular}[#1]{@{}#2@{}}#3\end{tabular}}
-\newcommand{\linktarget}[1]{}
+\newcommand{\linktarget}[1]{#1}
