@@ -14,13 +14,14 @@
 \usepackage{enumitem}
 \usepackage{tabu}
 \usepackage{adjustbox}
+\usepackage{enumitem}
 
 % Reduce whitespace
 \setlist{noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt}
 
 \setmainfont{Linux Biolinum}
 %\newfontlanguage{Japanese}{JPN}
-\setCJKmainfont[ItalicFont=AR PL UKai CN]{Source Han Serif SC}
+\setCJKmainfont[AutoFakeSlant]{Source Han Serif SC}
 \setCJKsansfont{Source Han Sans SC}
 
 \hbadness=10000
@@ -29,14 +30,17 @@
 %\parskip2.3ex
 \setlength{\headheight}{15.2pt}
 
+\setlist[enumerate]{itemsep=0pt, parsep=0pt}
+\setlist[itemize]{itemsep=0pt, parsep=0pt}
+
 \definecolor{boxbg}{gray}{0.9}
 \definecolor{boxframe}{gray}{0.4}
 \definecolor{highlight}{RGB}{226,132,0}
 \definecolor{tablecaption}{gray}{0.9}
 \definecolor{tableheader}{RGB}{255,253,183}
 
-\tikzstyle{tkbox} = [draw=boxframe, fill=boxbg, rectangle, thick, rounded corners, inner sep=6pt, inner ysep=12pt]
-\tikzstyle{fancytitle} = [fill=boxframe, text=white, right=12pt, rounded corners]
+\tikzstyle{tkbox} = [draw=boxframe, fill=boxbg, rectangle, thick, inner sep=10pt]
+\tikzstyle{fancytitle} = [fill=boxframe, text=white, above right=0pt, inner xsep=5pt]
 
 \newcommand{\tkbegin}{%
 	\pagestyle{empty}%
@@ -58,21 +62,34 @@
 	\tableofcontents%
 	\clearpage%
 	\pagestyle{fancy}%
-	\parskip2.3ex%
+	\parskip2ex%
 }
 \newenvironment{tkbasebox}%
 {\begin{tikzpicture}}%
-{\end{tikzpicture}\\}
+{\end{tikzpicture}}
 \newenvironment{tkinsidebox}%
 {\begin{minipage}{10.2cm}}%
 {\end{minipage}}
-\newcommand{\tkboxheader}[1]{\node[fancytitle] at (box.north west) {#1};}
+\newcommand{\tkboxheader}[1]{\node[fancytitle] at (box.north west) {\textbf{#1}};}
 \newcommand{\jpb}{\hskip 0sp plus 2pt minus 2sp}
 \newcommand{\tabincell}[3][t]{\begin{tabular}[#1]{@{}#2@{}}#3\end{tabular}}
 \newcommand{\linktarget}[1]{}
 
 \newcommand{\tablecaption}[1]{\cellcolor{tablecaption} #1}
 \newcommand{\tableheader}[1]{\cellcolor{tableheader}\textbf{#1}}
+
+\newcommand{\dialogbox}[2]{
+	\begin{tkbasebox}%
+		\node[tkbox](box){%
+			\begin{tkinsidebox}%
+			\setlist[enumerate]{leftmargin=*, itemsep=0pt, parsep=0pt}%
+			\setlist[itemize]{leftmargin=*, itemsep=0pt, parsep=0pt}%
+			#2%
+			\end{tkinsidebox}%
+		};%
+		\tkboxheader{#1}%
+	\end{tkbasebox}%
+}
 
 \let\emph\relax
 \DeclareTextFontCommand{\emph}{\color{highlight}\em}

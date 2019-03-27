@@ -271,10 +271,7 @@ func getNodeContent(node *html.Node, level int, name string, con context) string
 						nNode = nNode.NextSibling
 					}
 
-					str += "\\begin{tkbasebox}%\n\\node[tkbox](box){%\n\\begin{tkinsidebox}%\n"
-					str += getNodeContent(nNode, level, name, con)
-					str += "%\n\\end{tkinsidebox}%\n};%\n\\tkboxheader{" + title + "}%\n\\end{tkbasebox}\n\n"
-
+					str += `\dialogbox{` + title + "}{" + getNodeContent(nNode, level, name, con) + "}\n"
 					node = node.NextSibling
 					continue
 				case "book-navigation":
@@ -306,6 +303,7 @@ func getNodeContent(node *html.Node, level int, name string, con context) string
 					node = node.NextSibling
 					continue
 				}
+				str += "\n"
 				newline = 2
 			case "font":
 				if getAttr(node, "size") != "" {

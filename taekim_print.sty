@@ -14,9 +14,10 @@
 \usepackage{tikz}
 \usepackage{tabu}
 \usepackage{adjustbox}
+\usepackage{enumitem}
 
 \setmainfont{Linux Biolinum}
-\setCJKmainfont[ItalicFont=AR PL UKai CN]{Source Han Serif SC}
+\setCJKmainfont[AutoFakeSlant]{Source Han Serif SC}
 \setCJKsansfont{Source Han Sans SC}
 
 \hbadness=10000
@@ -25,14 +26,17 @@
 %\parskip2.3ex
 \setlength{\headheight}{15.2pt}
 
+\setlist[enumerate]{itemsep=0pt, parsep=0pt}
+\setlist[itemize]{itemsep=0pt, parsep=0pt}
+
 \definecolor{boxbg}{gray}{0.95}
 \definecolor{boxframe}{gray}{0.4}
 \definecolor{highlight}{gray}{0.3}
 \definecolor{tablecaption}{gray}{1}
 \definecolor{tableheader}{gray}{1}
 
-\tikzstyle{tkbox} = [draw=boxframe, fill=boxbg, rectangle, thick, rounded corners, inner sep=10pt, inner ysep=20pt]
-\tikzstyle{fancytitle} = [fill=boxframe, text=white, right=10pt, rounded corners]
+\tikzstyle{tkbox} = [draw=boxframe, fill=boxbg, rectangle, thick, inner sep=10pt]
+\tikzstyle{fancytitle} = [fill=boxframe, text=white, above right=0pt, inner xsep=5pt]
 
 \newcommand{\tkbegin}{%
 	\pagestyle{empty}%
@@ -53,15 +57,16 @@
 	\tableofcontents%
 	\clearpage%
 	\pagestyle{fancy}%
-	\parskip2.3ex%
+	\parskip2ex%
 }
 \newenvironment{tkbasebox}%
 {\begin{tikzpicture}}%
-{\end{tikzpicture}\\}
+{\end{tikzpicture}}
 \newenvironment{tkinsidebox}%
 {\begin{minipage}{\dimexpr\textwidth-21pt}}%
 {\end{minipage}}
-\newcommand{\tkboxheader}[1]{\node[fancytitle] at (box.north west) {#1};}
+
+\newcommand{\tkboxheader}[1]{\node[fancytitle] at (box.north west) {\textbf{#1}};}
 \newcommand{\jpb}{\hskip 0sp plus 2pt minus 2sp}
 \newcommand{\tabincell}[3][t]{\begin{tabular}[#1]{@{}#2@{}}#3\end{tabular}}
 \newcommand{\linktarget}[1]{#1}
@@ -69,6 +74,18 @@
 \newcommand{\tablecaption}[1]{\textit{#1}}
 \newcommand{\tableheader}[1]{\textbf{#1}}
 
+\newcommand{\dialogbox}[2]{
+	\begin{center}\begin{tkbasebox}%
+		\node[tkbox](box){%
+			\begin{tkinsidebox}%
+			\setlist[enumerate]{leftmargin=*, itemsep=0pt, parsep=0pt}%
+			\setlist[itemize]{leftmargin=*, itemsep=0pt, parsep=0pt}%
+			#2%
+			\end{tkinsidebox}%
+		};%
+		\tkboxheader{#1}%
+	\end{tkbasebox}\end{center}%
+}
+
 \let\emph\relax
-%\DeclareTextFontCommand{\emph}{\CJKunderdot\em}
 \newcommand{\emph}[1]{\CJKunderdot{\em#1}}
