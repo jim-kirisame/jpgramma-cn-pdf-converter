@@ -23,9 +23,8 @@ taekim_a4_print.pdf: taekim_a4_print.tex taekim_print.sty body.tex
 
 clean:
 	$(RM) taekim_a4.pdf taekim_a4_print.pdf taekim_ebook.pdf
-	
+	$(RM) *.log *.aux *.out *.toc
 dist_clean: clean
-	$(RM) *.pdf *.log *.aux *.out *.toc
 	$(RM) -r body.tex out
 	$(RM) $(converter)
 	$(RM) -rf $(source_dir)
