@@ -7,7 +7,8 @@
 ```
 make
 ```
-## 其他
+
+备忘：
 
 ```
 # 安装texlive
@@ -16,3 +17,7 @@ sudo pacman -S texlive-most texlive-langchinese
 # 安装字体
 sudo pacman -S ttf-linux-libertine adobe-source-han-serif-otc-fonts
 ```
+
+## 成品
+
+请访问[Release页面](https://github.com/jiangming1399/tae-kim_cn_latex_go/releases/latest)下载转换完毕的pdf文件。
