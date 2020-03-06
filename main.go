@@ -525,10 +525,18 @@ func escapeTexLite(text string) string {
 
 // getNodeStr 获取节点下的文本
 func getNodeStr(node *html.Node) string {
+	str := ""
 	if node != nil && node.FirstChild != nil {
-		return node.FirstChild.Data
+		n := node.FirstChild
+		for n != nil {
+			if n.Type == html.TextNode {
+				str += n.Data
+			}
+			str += getNodeStr(n)
+			n = n.NextSibling
+		}
 	}
-	return ""
+	return str
 }
 
 func getNodeRealStr(node *html.Node) string {
