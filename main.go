@@ -258,7 +258,7 @@ func getNodeContent(node *html.Node, level int, name string, con context) string
 					title := "提示"
 					nNode := node.FirstChild
 
-					tnode := getNode(node, func(nd *html.Node) bool {
+					tnode := getNode(nNode, func(nd *html.Node) bool {
 						return nd.Data == "span" && getAttr(nd, "class") == "summary"
 					})
 
