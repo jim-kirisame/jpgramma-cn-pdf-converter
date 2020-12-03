@@ -10,14 +10,17 @@ all: taekim_a4.pdf taekim_a4_print.pdf taekim_ebook.pdf
 taekim_ebook.pdf: taekim_ebook.tex taekim_ebook.sty body.tex
 	xelatex taekim_ebook
 	xelatex taekim_ebook
+	xelatex taekim_ebook
 	pdf90 --suffix 'turned' --batch taekim_ebook.pdf
 	mv taekim_ebook-turned.pdf taekim_ebook.pdf
 
 taekim_a4.pdf: taekim_a4.tex taekim.sty body.tex
 	xelatex taekim_a4
 	xelatex taekim_a4
+	xelatex taekim_a4
 
 taekim_a4_print.pdf: taekim_a4_print.tex taekim_print.sty body.tex
+	xelatex taekim_a4_print
 	xelatex taekim_a4_print
 	xelatex taekim_a4_print
 

@@ -19,10 +19,9 @@
 % Reduce whitespace
 \setlist{noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt}
 
-\setmainfont{Linux Biolinum}
-%\newfontlanguage{Japanese}{JPN}
-\setCJKmainfont[AutoFakeSlant]{Source Han Serif SC}
-\setCJKsansfont{Source Han Sans SC}
+\setmainfont{Linux Biolinum O}
+\setCJKmainfont[AutoFakeSlant]{Noto Serif CJK SC}
+\setCJKsansfont{Noto Sans CJK SC}
 
 \hbadness=10000
 \raggedbottom
@@ -44,6 +43,7 @@
 
 \newcommand{\tkbegin}{%
 	\pagestyle{empty}%
+	\pagenumbering{Roman}%
 	\begin{center}%
 		\leavevmode%
 		\normalfont%
@@ -59,10 +59,13 @@
 	
 	\clearpage%
 	\pagestyle{plain}%
+	\pagenumbering{roman}%
 	\tableofcontents%
 	\clearpage%
 	\pagestyle{fancy}%
 	\parskip2ex%
+	\pagenumbering{arabic}%
+	\setcounter{page}{1}%
 }
 \newenvironment{tkbasebox}%
 {\begin{tikzpicture}}%

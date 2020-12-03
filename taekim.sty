@@ -15,9 +15,9 @@
 \usepackage{adjustbox}
 \usepackage{enumitem}
 
-\setmainfont{Linux Biolinum}
-\setCJKmainfont[ItalicFont=AR PL UKai CN]{Source Han Serif SC}
-\setCJKsansfont{Source Han Sans SC}
+\setmainfont{Linux Biolinum O}
+\setCJKmainfont[ItalicFont=AR PL UKai CN]{Noto Serif CJK SC}
+\setCJKsansfont{Noto Sans CJK SC}
 
 \hbadness=10000
 \raggedbottom
@@ -39,6 +39,7 @@
 
 \newcommand{\tkbegin}{%
 	\pagestyle{empty}%
+	\pagenumbering{Roman}%
 	\begin{center}%
 		\leavevmode%
 		\normalfont%
@@ -53,10 +54,13 @@
 	
 	\cleardoublepage%
 	\pagestyle{plain}%
+	\pagenumbering{roman}%
 	\tableofcontents%
 	\clearpage%
 	\pagestyle{fancy}%
 	\parskip2ex%
+	\pagenumbering{arabic}%
+	\setcounter{page}{1}%
 }
 \newenvironment{tkbasebox}%
 {\begin{tikzpicture}}%

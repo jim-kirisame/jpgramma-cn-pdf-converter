@@ -12,12 +12,21 @@ make
 
 ```
 # 安装texlive
-sudo pacman -S texlive-most texlive-langchinese
+sudo pacman -S texlive-most texlive-langchinese # Arch Linux
+sudo apt install texlive texlive-lang-chinese texlive-xetex # Debian系
 
 # 安装字体
-sudo pacman -S ttf-linux-libertine adobe-source-han-serif-otc-fonts
+sudo pacman -S ttf-linux-libertine adobe-source-han-serif-otc-fonts # Arch Linux
+sudo apt install fonts-linuxlibertine fonts-noto-cjk # Debian系
+```
+
+对于Arch系，字体名称可能和Debian系的不同。如果遇到了无法找到字体的情况，请编辑sty文件，修改为下列字体：
+```
+\setmainfont{Linux Biolinum O}
+\setCJKmainfont[AutoFakeSlant]{Source Han Serif SC}
+\setCJKsansfont{Source Han Sans SC}
 ```
 
 ## 成品
 
-请访问[Release页面](https://github.com/jiangming1399/tae-kim_cn_latex_go/releases/latest)下载转换完毕的pdf文件。
+请访问[Release页面](https://github.com/jim-kirisame/tae-kim_cn_latex_go/releases/latest)下载转换完毕的pdf文件。
