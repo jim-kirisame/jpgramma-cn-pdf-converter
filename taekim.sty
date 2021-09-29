@@ -78,7 +78,7 @@
 \newcommand{\tableheader}[1]{\cellcolor{tableheader}\textbf{#1}}
 
 \newcommand{\dialogbox}[2]{
-	\begin{tkbasebox}%
+	\begin{center}\begin{tkbasebox}%
 		\node[tkbox](box){%
 			\begin{tkinsidebox}%
 			\setlist[enumerate]{leftmargin=*, itemsep=0pt, parsep=0pt}%
@@ -87,8 +87,8 @@
 			\end{tkinsidebox}%
 		};%
 		\tkboxheader{#1}%
-	\end{tkbasebox}%
+	\end{tkbasebox}\end{center}%
 }
 
 \let\emph\relax
-\DeclareTextFontCommand{\emph}{\color{highlight}\em}
+\newcommand{\emph}[1]{{\color{highlight}\em #1}}

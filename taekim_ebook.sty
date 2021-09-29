@@ -95,4 +95,5 @@
 }
 
 \let\emph\relax
-\DeclareTextFontCommand{\emph}{\color{highlight}\em}
+%\DeclareTextFontCommand{\emph}{\color{highlight}\em}
+\newcommand{\emph}[1]{{\color{highlight}\em #1}}
