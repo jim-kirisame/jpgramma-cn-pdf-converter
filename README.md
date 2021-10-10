@@ -29,4 +29,4 @@ sudo apt install fonts-linuxlibertine fonts-noto-cjk # Debian系
 
 ## 成品
 
-请访问[Release页面](https://github.com/jim-kirisame/tae-kim_cn_latex_go/releases/latest)下载转换完毕的pdf文件。
+请访问[Release页面](https://github.com/jim-kirisame/jpgramma-cn-pdf-converter/releases/latest)下载转换完毕的pdf文件。
